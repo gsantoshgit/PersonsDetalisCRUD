@@ -1,0 +1,33 @@
+2021-03-20 17:01:32.308  INFO 7680 --- [main] pringBootEmployeeRestServicesApplication : Starting SpringBootEmployeeRestServicesApplication using Java 15 on Santhosh with PID 7680 (C:\SPRING\springBootEmployeeRestServices\target\classes started by gsantosh in C:\SPRING\springBootEmployeeRestServices)
+2021-03-20 17:01:32.323  INFO 7680 --- [main] pringBootEmployeeRestServicesApplication : No active profile set, falling back to default profiles: default
+2021-03-20 17:01:34.078  INFO 7680 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-03-20 17:01:34.281  INFO 7680 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 92 ms. Found 1 JPA repository interfaces.
+2021-03-20 17:01:35.815  INFO 7680 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port(s): 8081 (http)
+2021-03-20 17:01:35.952  INFO 7680 --- [main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2021-03-20 17:01:35.954  INFO 7680 --- [main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/9.0.44]
+2021-03-20 17:01:37.899  INFO 7680 --- [main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2021-03-20 17:01:37.900  INFO 7680 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5484 ms
+2021-03-20 17:01:37.991  INFO 7680 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Starting...
+2021-03-20 17:01:39.627  INFO 7680 --- [main] c.z.h.HikariDataSource                   : HikariPool-1 - Start completed.
+2021-03-20 17:01:39.638  INFO 7680 --- [main] o.s.b.a.h.H2ConsoleAutoConfiguration     : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:Eployee_DB'
+2021-03-20 17:01:44.666  INFO 7680 --- [main] o.h.j.i.u.LogHelper                      : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-03-20 17:01:53.139  INFO 7680 --- [main] o.h.Version                              : HHH000412: Hibernate ORM core version 5.4.29.Final
+2021-03-20 17:01:55.998  INFO 7680 --- [main] o.h.a.c.Version                          : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-03-20 17:01:56.756  INFO 7680 --- [main] o.h.d.Dialect                            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2021-03-20 17:02:01.693  INFO 7680 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-03-20 17:02:01.707  INFO 7680 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-03-20 17:02:02.790  WARN 7680 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2021-03-20 17:02:03.069  INFO 7680 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-03-20 17:02:03.211  INFO 7680 --- [main] o.s.s.c.ThreadPoolTaskExecutor           : Initializing ExecutorService 'applicationTaskExecutor'
+2021-03-20 17:02:03.620  INFO 7680 --- [main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port(s): 8081 (http) with context path ''
+2021-03-20 17:02:03.621  INFO 7680 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-03-20 17:02:03.717  INFO 7680 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-03-20 17:02:03.815  INFO 7680 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-03-20 17:02:04.370  INFO 7680 --- [main] pringBootEmployeeRestServicesApplication : Started SpringBootEmployeeRestServicesApplication in 33.111 seconds (JVM running for 34.764)
+2021-03-20 17:02:04.374  INFO 7680 --- [main] pringBootEmployeeRestServicesApplication : SpringBootEmployeeRestServicesApplication :: main exit ::
+2021-03-20 17:33:12.574  INFO 7680 --- [RMI TCP Connection(36)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2021-03-20 17:33:12.851  INFO 7680 --- [RMI TCP Connection(36)-127.0.0.1] o.s.s.c.ThreadPoolTaskExecutor           : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-03-20 17:33:12.862  INFO 7680 --- [RMI TCP Connection(36)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-03-20 17:33:12.878  INFO 7680 --- [RMI TCP Connection(36)-127.0.0.1] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2021-03-20 17:33:12.944  INFO 7680 --- [RMI TCP Connection(36)-127.0.0.1] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown initiated...
+2021-03-20 17:33:12.971  INFO 7680 --- [RMI TCP Connection(36)-127.0.0.1] c.z.h.HikariDataSource                   : HikariPool-1 - Shutdown completed.
