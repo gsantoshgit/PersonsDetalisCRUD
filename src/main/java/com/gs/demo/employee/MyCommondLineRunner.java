@@ -1,3 +1,18 @@
+/**
+ *   Copyright 2021 by G Santosh Chary All Rights Reserved.
+ *
+ *        @filename         : MyCommondLineRunner.java
+ *        @version          : 1.0.0
+ *        @date             : June 12, 2021
+ *        @description		: This Controller class is used to do the get,put,post request mappings
+ *
+ *        @author <a href="mailto:santoshchary.gadepally@gmail.com">Santosh Chary Gadepally/a>
+ *
+ * History of modifications:
+ * Author                            Date                Description of modifications
+ * ------------                  ------------         ------------------------------
+ * Santosh Chary Gadepally   		June 12, 2021            Created.
+ **/
 package com.gs.demo.employee;
 
 import java.util.ArrayList;
@@ -9,199 +24,198 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.gs.demo.employee.config.IConstantMessages;
 import com.gs.demo.employee.entity.Employee;
+import com.gs.demo.employee.exceptions.EmployeeObjExecptions;
 import com.gs.demo.employee.services.EmployeeService;
+
 @Component
 
-public class MyCommondLineRunner implements CommandLineRunner{
+public class MyCommondLineRunner implements CommandLineRunner {
 
 	private static final Logger log = LoggerFactory.getLogger(SpringBootEmployeeRestServicesApplication.class);
-	private static final String CLASS_NAME="SpringBootEmployeeRestServicesApplication :: ";
-	private static String METHOD_NAME="";
-	private static final String ENTRY="::  Entry";
-	private static final String EXIT=":: Exit";
+	private static final String CLASS_NAME = "SpringBootEmployeeRestServicesApplication :: ";
+	private static String METHOD_NAME = "";
+	private static final String ENTRY = "::  Entry";
+	private static final String EXIT = ":: Exit";
 	@Autowired
-	 EmployeeService employeeService ;
-	
+	EmployeeService employeeService;
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
-		METHOD_NAME="run";
-		log.info(CLASS_NAME+METHOD_NAME+ENTRY);
-		
+		METHOD_NAME = "run";
+		log.info(CLASS_NAME + METHOD_NAME + ENTRY);
+
 		String fristName;
 		String surname;
-		long id=0;
+		long id = 0;
 		ArrayList<Employee> empleList;
 		Scanner scanner = new Scanner(System.in);
-		 int option=0; 
-			/*
-			 * System.out.
-			 * println("Please select one option from below \n 1. Add Person \n 2. Edit Person \n 3. Delete person detail \n 4.Count of persons \n 5. List of all the persons "
-			 * ); option = scanner.nextInt(); if(scanner.hasNextInt()) {
-			 * id=scanner.nextInt(); }else {
-			 * System.out.println("Please enter valid integer value  :"); option=0;
-			 * 
-			 * }
-			 */
-		while (option<6) {
-		switch(option){
-		case 0:
-			System.out.println("Please select one option from below \n 1. Add Person \n 2. Edit Person \n 3. Delete person detail \n 4.Count of persons \n 5. List of all the persons ");
-			///option=scanner.nextInt();
-			 if(scanner.hasNextInt()) {
-				 option=scanner.nextInt();
-				 }else {
-					 System.out.println("Please enter valid integer value  :");
-					  System.out.println("-----------------------------------------------------");
-					 scanner.next();
-					 option=0;
-						
-				 }
-			break;
-		 case 1:
-			 System.out.println("Please enter id :");
-			  System.out.println("-----------------------------------------------------");
-			 if(scanner.hasNextLong()) {
-			 id=scanner.nextLong();
-			 }else {
-				 System.out.println("Please enter valid integer value  :");
-				  System.out.println("-----------------------------------------------------");
-				 scanner.next();
-				option=1;
-				 break;
-			 }
-			
-			 System.out.println("Please enter the first name :");
-			  System.out.println("-----------------------------------------------------");
-				 fristName = scanner.next();
+		int option = 0;
+		while (option < 6) {
+			switch (option) {
+			case 0:
+				log.info(IConstantMessages.PLEASE_SELECT_OPTION);
 				
-				System.out.println("Please enter Surname :");
-				  System.out.println("-----------------------------------------------------");
-				 surname = scanner.next();
 				
-				Employee emp=new Employee(id,fristName,surname);
-				employeeService.saveEmployee(emp);
-				 System.out.println("*********************************************************");
-				System.out.println("Provided details are Saved successfully");
-				  System.out.println("*********************************************************");
-				
-				  option=0;
-			  break;
-			  case 2:
-				  System.out.println("*********************************************************");
-				  System.out.println("Please enter id to edit the details:");
-				  System.out.println("-----------------------------------------------------");
-					 
-					 if(scanner.hasNextLong()) {
-						 id=scanner.nextLong();
-						 }else {
-							 System.out.println("*********************************************************");
-							 System.out.println("Please enter valid integer value  :");
-							  System.out.println("*********************************************************");
-							 scanner.next();
-							option=2;
-							 break;
-						 }
-					 Employee empDet;
-					 try {
-					   empDet= employeeService.getEmployee(id);
-					   System.out.println("*********************************************************");
-					   System.out.println("Present Firstname "+empDet.getFirstName()+"\n ::Please enter updated first name :");
-						 fristName = scanner.next();
-						 System.out.println("*********************************************************");
-						System.out.println("Present surname "+empDet.getSurName()+" \n :: Please enter updated Surname :");
-						 surname = scanner.next();
-						
-						Employee emp1=new Employee(id,fristName,surname);
-						
-						employeeService.updateEmployee(emp1);
-						 System.out.println("*********************************************************");
-						System.out.println("Provided details are Updated successfully");
-					 }catch (Exception e) {
-						 System.out.println("*********************************************************");
-						System.out.println("Provided ID is not available in the Database :"+e.getMessage());
-						 option=2;
+				if (scanner.hasNextInt()) {
+					option = scanner.nextInt();
+					if(option>6) {
+					option = 0;	
 					}
-					 
-						  System.out.println("*********************************************************");
-						//	System.out.println("Please select one option from below \n 1. Add Person \n 2. Edit Person \n 3. Delete person detail \n 4.Count of persons \n 5. List of all the persons ");
-						//option=scanner.nextInt();
-						  option=0;
-			  break;
-			  case 3:
-				  System.out.println("*********************************************************");
-				  System.out.println("Please enter id to delete the details:");
-				  System.out.println("*********************************************************");
-					 if(scanner.hasNextLong()) {
-						 id=scanner.nextLong();
-						 }else {
-							 System.out.println("*********************************************************");
-							 System.out.println("Please enter valid integer value  :");
-							  System.out.println("*********************************************************");
-							 scanner.next();
-							option=3;
-							 break;
-						 }
-					 try {
-					 employeeService.deleteEmployee(id);
-					 }catch(Exception ex) {
-						 System.out.println("*********************************************************");
-						 System.out.println("Record is not avaliable"+ex.getMessage());
-						 option=3;
-						 break;
-					 }
-					 System.out.println("*********************************************************");
-					 System.out.println(" Record is deleted successfully ::");
-					  System.out.println("*********************************************************");
-						//System.out.println("Please select one option from below \n 1. Add Person \n 2. Edit Person \n 3. Delete person detail \n 4.Count of persons \n 5. List of all the persons ");
-					  // option=scanner.nextInt();
-					  option=0;
-			  break;
-		
-			  case 4:
-			    System.out.println("*********************************************************");
-			    empleList=(ArrayList<Employee>) employeeService.retrieveEmployees();
-			    System.out.println("Number of employees available are ::"+empleList.size());
-			    
-			    System.out.println("*********************************************************");
-				//System.out.println("Please select one option from below \n 1. Add Person \n 2. Edit Person \n 3. Delete person detail \n 4.Count of persons \n 5. List of all the persons ");
-				 //  option=scanner.nextInt();
-			    option=0;
-			
-			  break;
-			  case 5:
-				  System.out.println("*********************************************************");
-				    System.out.println("Below are the List Of Employee details ::");
-				    System.out.println("*********************************************************");
-				     empleList=(ArrayList<Employee>) employeeService.retrieveEmployees();
-				    System.out.println("Number of employees available are ::"+empleList.size());
-				    System.out.println("*********************************************************");
-				    
-				     for (Employee e : empleList) {
-				    	 System.out.println("----------------------------------------------------");
-				    	 System.out.println("[ ID  ]  ["+e.getId()+"] [First name  ::]  ["+ e.getFirstName() +"] [Last name ::] ["+e.getSurName()+"]");;
-				    	 System.out.println("----------------------------------------------------");
-					} 
-				     System.out.println("*********************************************************");
-				 //	System.out.println("Please select one option from below \n 1. Add Person \n 2. Edit Person \n 3. Delete person detail \n 4.Count of persons \n 5. List of all the persons ");
-					//   option=scanner.nextInt();
-				     option=0;
-				
-				  break;
-			default:
-				System.out.println("*********************************************************");
-			System.out.println("Please select any of the options 1,2,3,4,5");
-			System.out.println("*********************************************************");
-			break;
-     }
-		}	 
-		
-		scanner.close();
-		
-		log.info(CLASS_NAME+METHOD_NAME+EXIT);
-		
-	}
+				} else {
+					log.info(IConstantMessages.PLEASE_SELECT_INT_VALUE);
+					scanner.next();
+					option = 0;
+				}
+				break;
+			case 1:
+				log.info(IConstantMessages.ENTER_ID);
+				if (scanner.hasNextLong()) {
+					id = scanner.nextLong();
+				} else {
+					log.info(IConstantMessages.PLEASE_SELECT_INT_VALUE);
+					scanner.next();
+					option = 1;
+					break;
+				}
+				log.info(IConstantMessages.PLEASE_ENTER_FIRST_NAME);
+				fristName = scanner.next();
+				log.info(IConstantMessages.PLEASE_ENTER_SUR_NAME);
+				surname = scanner.next();
+				Employee emp = new Employee(id, fristName, surname);
+				try {
+					employeeService.saveEmployee(emp);
+				}
+				catch (EmployeeObjExecptions empExp) {
+					log.error(empExp.getMessage());
+				}
+				catch (Exception e) {
+					log.error(e.getMessage());
+				}
+				log.info(IConstantMessages.LINE);
+				log.info(IConstantMessages.DATA_SAVED_MSG);
+				option = 0;
+				break;
 
+			case 2:
+				log.info(IConstantMessages.LINE);
+				log.info(IConstantMessages.ID_TO_EDIT_MSG);
+				if (scanner.hasNextLong()) {
+					id = scanner.nextLong();
+				} else {
+					log.info(IConstantMessages.LINE);
+					log.info(IConstantMessages.PLEASE_SELECT_INT_VALUE);
+					scanner.next();
+					option = 2;
+					break;
+				}
+				Employee empDet;
+				try {
+					empDet = employeeService.getEmployee(id);
+					log.info(IConstantMessages.LINE);
+					log.info(IConstantMessages.PRESENT_FNAME_MSG + empDet.getFirstName() + IConstantMessages.UPDATED_FNAME_MSG);
+					fristName = scanner.next();
+					log.info(IConstantMessages.LINE);
+					log.info(IConstantMessages.PRESENT_SURNAME_MSG + empDet.getSurName() +IConstantMessages.UPDATED_SURNAME_MSG);
+					surname = scanner.next();
+					Employee emp1 = new Employee(id, fristName, surname);
+					employeeService.updateEmployee(emp1);
+					log.info(IConstantMessages.LINE);
+					log.info(IConstantMessages.DATA_SAVED_MSG);
+				}
+				catch (EmployeeObjExecptions empExp) {
+					log.error(empExp.getMessage());
+				}
+				catch (Exception e) {
+					log.info(IConstantMessages.LINE);
+					log.info(IConstantMessages.ID_NOT_AVAILABLE_MSG + e.getMessage());
+					option = 2;
+				}
+				log.info(IConstantMessages.LINE);
+				option = 0;
+				break;
+			case 3:
+				log.info(IConstantMessages.LINE);
+				log.info(IConstantMessages.PLEASE_ENTER_ID_TO_DEL);
+				log.info(IConstantMessages.LINE);
+				if (scanner.hasNextLong()) {
+					id = scanner.nextLong();
+				} else {
+					log.info(IConstantMessages.LINE);
+					log.info(IConstantMessages.PLEASE_SELECT_INT_VALUE);
+					log.info(IConstantMessages.LINE);
+					scanner.next();
+					option = 3;
+					break;
+				}
+				try {
+					employeeService.deleteEmployee(id);
+				} 
+				catch (EmployeeObjExecptions empExp) {
+					log.error(empExp.getMessage());
+					option = 3;
+					break;
+				}
+				catch (Exception ex) {
+					log.info(IConstantMessages.LINE);
+					log.info(IConstantMessages.REC_NOT_AVAILABLE_MSG+ ex.getMessage());
+					option = 3;
+					break;
+				}
+				log.info(IConstantMessages.LINE);
+				log.info(IConstantMessages.RECORD_DELETED_MSG);
+				log.info(IConstantMessages.LINE);
+				option = 0;
+				break;
+			case 4:
+				try {
+				log.info(IConstantMessages.LINE);
+				empleList = (ArrayList<Employee>) employeeService.retrieveEmployees();
+				log.info(IConstantMessages.NO_OF_PERSONS_AVAILABLE + empleList.size());
+			} 
+			catch (EmployeeObjExecptions empExp) {
+				log.error(empExp.getMessage());
+				option = 0;
+				break;
+			}
+			catch (Exception ex) {
+				log.info(IConstantMessages.LINE);
+				log.info(IConstantMessages.REC_NOT_AVAILABLE_MSG+ ex.getMessage());
+				option = 0;
+				break;
+			}
+
+				log.info(IConstantMessages.LINE);
+				option = 0;
+				break;
+			case 5:
+				log.info(IConstantMessages.LINE);
+				log.info(IConstantMessages.LIST_OF_PERSONS_MSG);
+				log.info(IConstantMessages.LINE);
+				empleList = (ArrayList<Employee>) employeeService.retrieveEmployees();
+				log.info(IConstantMessages.LINE);
+
+				for (Employee e : empleList) {
+					log.info(IConstantMessages.LINE);
+					log.info(IConstantMessages.ID + e.getId() + IConstantMessages.FIRSTNAME+ e.getFirstName()
+					+ IConstantMessages.SURNAME + e.getSurName() + "]");
+					;
+					log.info(IConstantMessages.LINE);
+				}
+				log.info(IConstantMessages.LINE);
+				option = 0;
+
+				break;
+			default:
+				log.info(IConstantMessages.LINE);
+				log.info(IConstantMessages.PLEASE_SELECT_OPTION);
+				log.info(IConstantMessages.LINE);
+				break;
+			}
+		}
+		scanner.close();
+		log.info(CLASS_NAME + METHOD_NAME + EXIT);
+
+	}
 
 }
