@@ -11,13 +11,13 @@ import com.gs.demo.employee.exceptions.EmployeeObjExecptions;
  */
 public interface EmployeeService {
 	
- public List<Employee> retrieveEmployees();
+ public List<Employee> retrieveEmployees()throws EmployeeObjExecptions;
   
  public Employee getEmployee(Long employeeId)throws EmployeeObjExecptions;
   
- public void saveEmployee(Employee employee);
+ public void saveEmployee(Employee employee)throws EmployeeObjExecptions;
   
- public void deleteEmployee(Long employeeId);
+ public void deleteEmployee(Long employeeId)throws EmployeeObjExecptions;
   
- public void updateEmployee(Employee employee);
+ public void updateEmployee(Employee employee)throws EmployeeObjExecptions;
 }
