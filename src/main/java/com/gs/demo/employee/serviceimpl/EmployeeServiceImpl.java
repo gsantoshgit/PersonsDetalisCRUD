@@ -1,10 +1,10 @@
 /**
  *   Copyright 2021 by G Santosh Chary All Rights Reserved.
  *
- *        @filename         : EmployeeServiceImpl.java
+ *        @filename         : EmployeeRestController.java
  *        @version          : 1.0.0
  *        @date             : March 20, 2021
- *        @description		: This class is used to do all crud operation on employee object
+ *        @description		: This Controller class is used to do the get,put,post request mappings
  *
  *        @author <a href="mailto:santoshchary.gadepally@gmail.com">Santosh Chary Gadepally/a>
  *
@@ -13,106 +13,121 @@
  * ------------                  ------------         ------------------------------
  * Santosh Chary Gadepally   		March 20, 2021            Created.
  **/
-package com.gs.demo.employee.serviceimpl;
+
+package com.gs.demo.employee.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.gs.demo.employee.entity.Employee;
 import com.gs.demo.employee.exceptions.EmployeeObjExecptions;
-import com.gs.demo.employee.repository.EmployeeRepository;
+import com.gs.demo.employee.serviceimpl.EmployeeServiceImpl;
 import com.gs.demo.employee.services.EmployeeService;
 
- 
+@RestController
+public class EmployeeRestController {
 
-@Component
-public class EmployeeServiceImpl implements EmployeeService{
- 
+	@Autowired
+	private EmployeeService employeeService;
 	private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
-	private static final String CLASS_NAME="EmployeeServiceImpl ::";
-	
- @Autowired
- private EmployeeRepository employeeRepository;
+	private static final String CLASS_NAME = "EmployeeRestController ::";
 
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
 
- 
- /**
-* @param employeeRepository 
-* This method is used to set the Repository 
-*/
- 
- public void setEmployeeRepository(EmployeeRepository employeeRepository) {
-	 log.info(CLASS_NAME+" :: Entry");
-  this.employeeRepository = employeeRepository;
- log.info("Exit");
- }
- /**
-* This API method is to retrieve the List of employees
-*/ 
- public List<Employee> retrieveEmployees() {
-	 String METHOD_NAME="retrieveEmployees :";
- log.info(CLASS_NAME+METHOD_NAME+" Entry");
-  List<Employee> employees = employeeRepository.findAll();
- log.info(CLASS_NAME+METHOD_NAME+"Exit");
-  return employees;
- }
- 
- /**
-* This API method is to the getEmployee based on provided id
-* @param employeeId
-*/ 
- public Employee getEmployee(Long employeeId) throws EmployeeObjExecptions{
-	 String METHOD_NAME="getEmployee :";
-	 Optional<Employee> optEmp=null;
-	 try {
-	 log.info(CLASS_NAME+METHOD_NAME+ "Entry  ::");
-	log.info(CLASS_NAME+METHOD_NAME+" employeeId  ::"+employeeId);
-		 	
-		 	optEmp = employeeRepository.findById(employeeId);
-		
-	 }catch (Exception exp) {
-	 
-	 throw new EmployeeObjExecptions(exp.getMessage());
-}
- log.info(CLASS_NAME+METHOD_NAME+" Exit");
-	  return optEmp.get();
- }
- /**
-* This method is to saveEmployee
-* @param employee
-*/  
- public void saveEmployee(Employee employee){
-	 String METHOD_NAME="saveEmployee :";
-	log.info(CLASS_NAME+METHOD_NAME+ "Entry");
-	 employeeRepository.save(employee);
-	log.info(CLASS_NAME+METHOD_NAME+ " Exit");
- }
- /**
-* This method is to deleteEmployee
-* @param employeeId
-*/  
- public void deleteEmployee(Long employeeId){
-	 String METHOD_NAME="deleteEmployee :";
-	 log.info(CLASS_NAME+METHOD_NAME+" Entry");
-	log.debug("deleteEmployee  employeeId"+employeeId);
-  employeeRepository.deleteById(employeeId);
-  log.info("deleteEmployee Exit");
- }
- /**
-* This method is to updateEmployee details
-* @param employee
-*/   
- public void updateEmployee(Employee employee) {
-	 String METHOD_NAME="updateEmployee :";
-	log.info(CLASS_NAME+METHOD_NAME+" Entry");
-  employeeRepository.save(employee);
- log.info(CLASS_NAME+METHOD_NAME+" Exit");
- }
+	@RequestMapping(value = "/api/allemployees", method = RequestMethod.GET, produces = { "application/json" })
+	public List<Employee> getEmployees()throws EmployeeObjExecptions {
+		String METHOD_NAME = "getEmployees :";
+		log.info(CLASS_NAME + METHOD_NAME + " Entry");
+		List<Employee> employees;
+		try {
+			employees = employeeService.retrieveEmployees();
+		}catch(Exception exception){
 
+			throw new EmployeeObjExecptions(exception.getMessage());
+		}
+		log.info(CLASS_NAME + METHOD_NAME + " Exit");
+		return employees;
+	}
+
+	@GetMapping("/api/employeeById/{employeeId}")
+	public Employee getEmployee(@PathVariable(name = "employeeId") Long employeeId) throws EmployeeObjExecptions {
+		String METHOD_NAME = "retrieveEmployees :";
+		log.info(CLASS_NAME + METHOD_NAME + " Entry");
+
+		Employee employee = null;
+		try {
+			employee = employeeService.getEmployee(employeeId);
+
+		} catch (Exception e) {
+			log.error(CLASS_NAME + METHOD_NAME + "e.getMessage() ::" + e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+		log.info(CLASS_NAME + METHOD_NAME + "Exit");
+		return employee;
+	}
+
+	@PostMapping("/api/addemployee")
+	public void saveEmployee(Employee employee) throws EmployeeObjExecptions {
+		String METHOD_NAME = "saveEmployee :";
+		log.info(CLASS_NAME + METHOD_NAME + " Entry");
+		try {
+			employeeService.saveEmployee(employee);
+			log.info(CLASS_NAME + METHOD_NAME +"Employee Saved Successfully");
+		}catch (Exception e) {
+			log.error(CLASS_NAME + METHOD_NAME + "e.getMessage() ::" + e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+		log.info(CLASS_NAME + METHOD_NAME + "Exit");
+	}
+
+	@DeleteMapping("/api/deleemployee/{employeeId}")
+	public void deleteEmployee(@PathVariable(name = "employeeId") Long employeeId)throws EmployeeObjExecptions {
+		String METHOD_NAME = "deleteEmployee :";
+		log.info(CLASS_NAME + METHOD_NAME + " Entry");
+		try {
+			employeeService.deleteEmployee(employeeId);
+		}catch (Exception e) {
+			log.error(CLASS_NAME + METHOD_NAME + "e.getMessage() ::" + e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+
+		log.info(CLASS_NAME + METHOD_NAME +" Employee Deleted Successfully");
+		log.info(CLASS_NAME + METHOD_NAME + "Exit");
+	}
+
+	@PutMapping("/api/updateemployee/{employeeId}")
+	public void updateEmployee(@RequestBody Employee employee,
+			@PathVariable(name="employeeId")Long employeeId) throws EmployeeObjExecptions{
+		String METHOD_NAME = "updateEmployee :";
+		Employee emp = null;
+		try {
+			emp = employeeService.getEmployee(employeeId);
+		} catch (Exception e) {
+			log.error(CLASS_NAME+METHOD_NAME+"e.getMessage() ::"+e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+		try {
+		if(emp != null){
+			employeeService.updateEmployee(employee);
+		}
+		} catch (Exception e) {
+			log.error(CLASS_NAME+METHOD_NAME+"e.getMessage() ::"+e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+	}
 
 }
