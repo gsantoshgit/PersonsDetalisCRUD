@@ -38,69 +38,96 @@ import com.gs.demo.employee.services.EmployeeService;
 
 @RestController
 public class EmployeeRestController {
-  
- @Autowired
- private EmployeeService employeeService;
- private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
-	private static final String CLASS_NAME="EmployeeRestController ::";
-  
- public void setEmployeeService(EmployeeService employeeService) {
-  this.employeeService = employeeService;
- }
- 
 
- @RequestMapping(value = "/api/allemployees", method = RequestMethod.GET,
-			produces = { "application/json" } )
- public List<Employee> getEmployees() {
-  List<Employee> employees = employeeService.retrieveEmployees();
-  return employees;
- }
-  
- @GetMapping("/api/employeeById/{employeeId}")
- public Employee getEmployee(@PathVariable(name="employeeId")Long employeeId) throws EmployeeObjExecptions {
-	 
-	 String METHOD_NAME="retrieveEmployees :";
-	 log.info(CLASS_NAME+METHOD_NAME+" Entry");
-	 
-	 Employee employee=null;
-	 try {	 
-	 
-	 employee=employeeService.getEmployee(employeeId);
-	 
-	 }catch (Exception e) {
-		 log.error(CLASS_NAME+METHOD_NAME+"e.getMessage() ::"+e.getMessage());
-		 throw new  EmployeeObjExecptions(e.getMessage());
+	@Autowired
+	private EmployeeService employeeService;
+	private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
+	private static final String CLASS_NAME = "EmployeeRestController ::";
+
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
 	}
-	 log.info(CLASS_NAME+METHOD_NAME+"Exit");
-  return employee;
- }
-  
- @PostMapping("/api/addemployee")
- public void saveEmployee(Employee employee){
-  employeeService.saveEmployee(employee);
-  System.out.println("Employee Saved Successfully");
- }
-  
- @DeleteMapping("/api/deleemployee/{employeeId}")
- public void deleteEmployee(@PathVariable(name="employeeId")Long employeeId){
-  employeeService.deleteEmployee(employeeId);
-  System.out.println("Employee Deleted Successfully");
- }
-  
- @PutMapping("/api/updateemployee/{employeeId}")
- public void updateEmployee(@RequestBody Employee employee,
-   @PathVariable(name="employeeId")Long employeeId){
-  Employee emp = null;
-try {
-	emp = employeeService.getEmployee(employeeId);
-} catch (EmployeeObjExecptions e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}
-  if(emp != null){
-   employeeService.updateEmployee(employee);
-  }
-   
- }
- 
+
+	@RequestMapping(value = "/api/allemployees", method = RequestMethod.GET, produces = { "application/json" })
+	public List<Employee> getEmployees()throws EmployeeObjExecptions {
+		String METHOD_NAME = "getEmployees :";
+		log.info(CLASS_NAME + METHOD_NAME + " Entry");
+		List<Employee> employees;
+		try {
+			employees = employeeService.retrieveEmployees();
+		}catch(Exception exception){
+
+			throw new EmployeeObjExecptions(exception.getMessage());
+		}
+		log.info(CLASS_NAME + METHOD_NAME + " Exit");
+		return employees;
+	}
+
+	@GetMapping("/api/employeeById/{employeeId}")
+	public Employee getEmployee(@PathVariable(name = "employeeId") Long employeeId) throws EmployeeObjExecptions {
+		String METHOD_NAME = "retrieveEmployees :";
+		log.info(CLASS_NAME + METHOD_NAME + " Entry");
+
+		Employee employee = null;
+		try {
+			employee = employeeService.getEmployee(employeeId);
+
+		} catch (Exception e) {
+			log.error(CLASS_NAME + METHOD_NAME + "e.getMessage() ::" + e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+		log.info(CLASS_NAME + METHOD_NAME + "Exit");
+		return employee;
+	}
+
+	@PostMapping("/api/addemployee")
+	public void saveEmployee(Employee employee) throws EmployeeObjExecptions {
+		String METHOD_NAME = "saveEmployee :";
+		log.info(CLASS_NAME + METHOD_NAME + " Entry");
+		try {
+			employeeService.saveEmployee(employee);
+			log.info(CLASS_NAME + METHOD_NAME +"Employee Saved Successfully");
+		}catch (Exception e) {
+			log.error(CLASS_NAME + METHOD_NAME + "e.getMessage() ::" + e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+		log.info(CLASS_NAME + METHOD_NAME + "Exit");
+	}
+
+	@DeleteMapping("/api/deleemployee/{employeeId}")
+	public void deleteEmployee(@PathVariable(name = "employeeId") Long employeeId)throws EmployeeObjExecptions {
+		String METHOD_NAME = "deleteEmployee :";
+		log.info(CLASS_NAME + METHOD_NAME + " Entry");
+		try {
+			employeeService.deleteEmployee(employeeId);
+		}catch (Exception e) {
+			log.error(CLASS_NAME + METHOD_NAME + "e.getMessage() ::" + e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+
+		log.info(CLASS_NAME + METHOD_NAME +" Employee Deleted Successfully");
+		log.info(CLASS_NAME + METHOD_NAME + "Exit");
+	}
+
+	@PutMapping("/api/updateemployee/{employeeId}")
+	public void updateEmployee(@RequestBody Employee employee,
+			@PathVariable(name="employeeId")Long employeeId) throws EmployeeObjExecptions{
+		String METHOD_NAME = "updateEmployee :";
+		Employee emp = null;
+		try {
+			emp = employeeService.getEmployee(employeeId);
+		} catch (Exception e) {
+			log.error(CLASS_NAME+METHOD_NAME+"e.getMessage() ::"+e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+		try {
+		if(emp != null){
+			employeeService.updateEmployee(employee);
+		}
+		} catch (Exception e) {
+			log.error(CLASS_NAME+METHOD_NAME+"e.getMessage() ::"+e.getMessage());
+			throw new EmployeeObjExecptions(e.getMessage());
+		}
+	}
+
 }
